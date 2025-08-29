@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Leaflet GPX Map</title>
+  <title>Frankfurt to Stuttgart GPX Map</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Leaflet CSS -->
@@ -11,7 +11,7 @@
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-  <!-- Leaflet GPX plugin (local file) -->
+  <!-- Leaflet GPX plugin -->
   <script src="gpx.js"></script>
 
   <style>
@@ -26,23 +26,23 @@
 <script>
 window.onload = function() {
   // Initialize the map
-  var map = L.map('map').setView([40.7128, -74.0060], 13);
+  var map = L.map('map').setView([50.1109, 8.6821], 6); // centered near Frankfurt
 
-  // Add OpenStreetMap tiles
-L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://www.esri.com/en-us/home">Esri</a>',
-  maxZoom: 19
-}).addTo(map);
+  // ArcGIS World Street Map tile layer
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://www.esri.com/en-us/home">Esri</a>',
+    maxZoom: 19
+  }).addTo(map);
 
-  // Load the GPX file
+  // Load your GPX track
   new L.GPX('my_track.gpx', {
     async: true,
+    polyline_options: { color: 'blue', weight: 4, opacity: 0.7 },
     marker_options: {
       startIconUrl: 'pin-icon-start.png',
       endIconUrl: 'pin-icon-end.png',
       shadowUrl: 'pin-shadow.png'
-    },
-    polyline_options: { color: 'blue', weight: 4, opacity: 0.7 }
+    }
   }).on('loaded', function(e) {
     map.fitBounds(e.target.getBounds());
   }).addTo(map);
@@ -50,6 +50,4 @@ L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_M
 </script>
 
 </body>
-
 </html>
-
